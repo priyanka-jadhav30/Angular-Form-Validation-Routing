@@ -1,0 +1,82 @@
+<div style="color:cornflowerblue">Register</div>
+
+<div class="container" id="regContainer">
+    
+        
+    <h3>Register User</h3>
+    <div class= "row" id="regRow">
+
+<form #registerUser="ngForm"  name="registration" id = "reg-form">
+
+   Is form valid : {{ registerUser.form.valid }}
+   {{hasError}}
+<div class="form-group">
+    <div>
+        <label for="username">Username</label>
+        <input type="text" required #username = "ngModel" [class.is-invalid] = "username.invalid && username.touched" name="username" id="username" class="form-control" [(ngModel)]= "registrationData.username" />
+    </div>
+   
+    <small  class="text-danger" [class.d-none] = "username.valid || username.untouched">Name is required</small>
+</div>
+
+<div class="form-group">
+    <div>
+        <label for="password">Password</label>
+        <input type="password" required #password = "ngModel" [class.is-invalid] = "password.invalid && password.touched" pattern = "^(?=.*\d).{4,8}$" name="password" id="password" class="form-control" [(ngModel)] = "registrationData.password" />
+    </div>
+    <small class="text-danger" [class.d-none] = "password.valid || password.untouched">Password should contain special chararcter </small> 
+</div>
+
+
+<div class="form-group">
+    <div>
+        <label for="email">Email ID</label>
+        <input type="email" pattern="^(.+)@(.+)\.(.+)$" required #email = "ngModel" [class.is-invalid] = "email.invalid && email.touched" name="email" id="email" class="form-control" [(ngModel)] = "registrationData.email" />
+    </div>
+    <!-- <small class="text-danger" [class.d-none] = "email.valid || email.untouched">Invalid email address</small> -->
+    <div *ngIf = "email.errors && (email.invalid || email.touched)">
+        <small class="text-danger" *ngIf = "email.errors.required">Email is required</small>
+        <small class="text-danger" *ngIf = "email.errors.pattern">Invalid email address</small>
+    </div>
+</div>
+
+<div class="form-group">
+    <div>
+        <label for="country">Country</label>
+        <select (blur) = "validateOptions(country.value)"  (change) = "validateOptions(country.value)" class="form-control" id="country" #country = "ngModel" [class.is-invalid]= "hasError && country.touched" class = "custom-select" name="country" [(ngModel)] = "registrationData.country">
+            <option value="default" selected>--SELECT--</option>
+         <option *ngFor ="let countryOption of countryOptions">
+             {{ countryOption }}
+         </option>
+        </select>
+    </div>
+   <small class="text-danger" [class.d-none] = "!hasError || country.untouched">Invalid option</small>
+</div>
+
+<div class = "radio-gender">
+<label for="gender">Gender</label>
+
+<div class="form-check">
+    <input class="form-check-input"  required #gender = "ngModel" [class.is-invalid] = "gender.invalid && gender.touched" type="radio" name="gender" value="Male" [(ngModel)] = "registrationData.gender">
+    <label class="form-check-label" for="gender">
+       Male
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" required #gender = "ngModel" [class.is-invalid] = "gender.invalid && gender.touched"  type="radio" name="gender" value="Female" [(ngModel)] = "registrationData.gender">
+    <label class="form-check-label" for="gender">
+       Female
+    </label>
+</div>
+<small  class="text-danger" [class.d-none] = "gender.valid || gender.untouched">select Gender</small>
+</div>
+
+<div style="padding-top: 32px;">
+    <button type="submit" [disabled] = "registerUser.form.invalid || hasError" class="btn btn-primary" id = "Sign-in">Sign In</button>
+    <button class="btn btn-primary" id = "btn-register">Register</button>
+</div>
+
+</form>
+</div>
+</div>
+
